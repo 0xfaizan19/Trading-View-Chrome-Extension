@@ -1,0 +1,164 @@
+:root {
+  --bg: #ffffff;
+  --surface: #f8f9fd;
+  --surface-hover: #f0f3fa;
+  --text: #131722;
+  --muted: #6a6d78;
+  --border: #e0e3eb;
+  --accent: #2962ff;
+  --accent-soft: rgba(41, 98, 255, 0.1);
+  --warn: #b26b00;
+  --warn-soft: rgba(255, 152, 0, 0.12);
+  --danger: #d32f2f;
+  --danger-soft: rgba(242, 54, 69, 0.1);
+  --kbd-bg: #ffffff;
+  --shadow: 0 1px 2px rgba(19, 23, 34, 0.08);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131722;
+    --surface: #1e222d;
+    --surface-hover: #262b38;
+    --text: #d1d4dc;
+    --muted: #8b8f9a;
+    --border: #2a2e39;
+    --accent: #5b8cff;
+    --accent-soft: rgba(91, 140, 255, 0.16);
+    --warn: #ffb74d;
+    --warn-soft: rgba(255, 183, 77, 0.12);
+    --danger: #ff6b6b;
+    --danger-soft: rgba(255, 107, 107, 0.14);
+    --kbd-bg: #131722;
+    --shadow: none;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0 auto;
+  max-width: 880px;
+  padding: 32px 24px 96px;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand img { border-radius: 8px; flex: none; }
+h1 { margin: 0; font-size: 20px; font-weight: 650; letter-spacing: -0.01em; }
+.brand p { margin: 2px 0 0; color: var(--muted); }
+
+.switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; flex: none; user-select: none; }
+.switch input { position: absolute; opacity: 0; pointer-events: none; }
+.track {
+  width: 38px; height: 22px; border-radius: 11px; background: var(--border);
+  position: relative; transition: background 0.15s;
+}
+.thumb {
+  position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); transition: transform 0.15s;
+}
+.switch input:checked + .track { background: var(--accent); }
+.switch input:checked + .track .thumb { transform: translateX(16px); }
+.switch input:focus-visible + .track { outline: 2px solid var(--accent); outline-offset: 2px; }
+.switch-label { font-weight: 550; }
+
+.controls {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px;
+  padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface);
+}
+.controls input[type="search"] {
+  flex: 1 1 220px; min-width: 0; padding: 8px 12px; border-radius: 6px;
+  border: 1px solid var(--border); background: var(--bg); color: var(--text); font: inherit;
+}
+.controls input[type="search"]:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; }
+.check { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); cursor: pointer; }
+.check input { accent-color: var(--accent); margin: 0; }
+
+.summary { color: var(--muted); margin: 16px 2px 8px; }
+
+body.disabled #groups { opacity: 0.5; }
+
+.group { margin-top: 20px; }
+.group h2 {
+  margin: 0 0 6px 2px; font-size: 11px; font-weight: 650; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted);
+}
+.rows { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+
+.row {
+  display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 6px 8px 6px 14px;
+  border-top: 1px solid var(--border); background: var(--bg);
+}
+.row:first-child { border-top: 0; }
+.row:hover { background: var(--surface); }
+.row.assigned .name { font-weight: 550; }
+
+.name { flex: 1 1 auto; min-width: 0; }
+.hint { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.note {
+  font-size: 12px; padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+  color: var(--warn); background: var(--warn-soft);
+}
+.note.conflict { color: var(--danger); background: var(--danger-soft); }
+
+.key {
+  min-width: 128px; height: 32px; padding: 0 12px; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--kbd-bg); color: var(--muted); box-shadow: var(--shadow);
+  font: 500 13px/1 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: 0.04em;
+}
+.key:not(.set) { font-family: inherit; letter-spacing: 0; }
+.key:hover { border-color: var(--accent); color: var(--text); }
+.key.set { color: var(--text); }
+.key.recording {
+  border-color: var(--accent); color: var(--accent); background: var(--accent-soft);
+  font-family: inherit; letter-spacing: 0; animation: pulse 1.2s ease-in-out infinite;
+}
+@keyframes pulse { 50% { box-shadow: 0 0 0 3px var(--accent-soft); } }
+
+.clear {
+  width: 28px; height: 28px; border: 0; border-radius: 6px; background: transparent;
+  color: var(--muted); cursor: pointer; font-size: 16px; line-height: 1;
+}
+.clear:hover { background: var(--surface-hover); color: var(--text); }
+.clear[hidden] { display: inline-block; visibility: hidden; }
+
+.empty { color: var(--muted); padding: 32px 0; text-align: center; }
+
+footer {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px;
+}
+button.ghost {
+  padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border); background: transparent;
+  color: var(--text); font: inherit; cursor: pointer;
+}
+button.ghost:hover { background: var(--surface); }
+
+#toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 12px);
+  padding: 10px 16px; border-radius: 8px; background: var(--text); color: var(--bg);
+  font-size: 13px; opacity: 0; pointer-events: none; transition: opacity 0.18s, transform 0.18s;
+  max-width: calc(100vw - 32px);
+}
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 640px) {
+  body { padding: 20px 16px 80px; }
+  .top { flex-direction: column; align-items: flex-start; }
+  .row { flex-wrap: wrap; }
+  .name { flex-basis: 100%; }
+  .key { flex: 1; }
+}

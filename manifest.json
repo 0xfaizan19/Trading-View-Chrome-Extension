@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "TradingView Custom Shortcuts",
+  "version": "1.1.0",
+  "description": "Assign your own keyboard shortcuts to TradingView drawing tools. Runs only on tradingview.com.",
+  "permissions": ["storage", "scripting"],
+  "host_permissions": ["https://*.tradingview.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "TradingView shortcuts (click to edit)",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.tradingview.com/*"],
+      "js": ["tools.js", "bridge.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://*.tradingview.com/*"],
+      "js": ["page.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ]
+}
